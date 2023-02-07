@@ -9,15 +9,18 @@ directories = {
     '3': []
 }
 
+
 def search_doc_in_docs(number):
     for i in range(len(documents)):
         if documents[i]['number']==number:
             return i
 
+
 def search_doc_in_direct(number):
     for i, j in directories.items():
         if number in j:
             return i
+
 
 def command_p():
     number=input('Введите номер документа:')
@@ -27,6 +30,7 @@ def command_p():
     else:
         print('Документ не найден в базе')
 
+
 def command_s():
     number = input('Введите номер документа:')
     num_in_direct=search_doc_in_direct(number)
@@ -35,16 +39,33 @@ def command_s():
     else:
         print('Документ не найден в базе')
 
+
 def command_l():
     for direct, val in directories.items():
         for i in val:
             num_val=search_doc_in_docs(i)
-            print(documents[num_val], direct)
+            print(f'№: {documents[num_val]["number"]},тип: {documents[num_val]["type"]}, владелец: {documents[num_val]["name"]}, полка хранения: {direct}')
+
 
 def command_ads():
     new_di = input('Введите номер полки:')
-    directories[new_di]=[]
-    print(f'Полка добавлена. Текущий перечень полок: {list(directories.keys())}')
+    if new_di in directories:
+        print(f'Такая полка уже существует. Текущий перечень полок: {list(directories.keys())}')
+    else:
+        directories[new_di]=[]
+        print(f'Полка добавлена. Текущий перечень полок: {list(directories.keys())}')
+
+
+def command_ds():
+    di_to_delete = input('Введите номер полки:')
+    if di_to_delete not in directories:
+        print(f'Такой полки не существует. Текущий перечень полок: {list(directories.keys())}')
+    elif directories[di_to_delete] != []:
+        print(f'На полке есть документы, удалите их перед удалением полки. Текущий перечень полок: {list(directories.keys())}')
+    else:
+        del directories[di_to_delete]
+        print(f'Полка удалена. Текущий перечень полок: {list(directories.keys())}')
+
 
 while True:
     print('введите команду')
@@ -57,3 +78,5 @@ while True:
         command_l()
     if command=='ads':
         command_ads()
+    if command=='ds':
+        command_ds()
