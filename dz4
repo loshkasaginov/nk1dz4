@@ -1,0 +1,59 @@
+documents = [
+    {'type': 'passport', 'number': '2207 876234', 'name': 'Василий Гупкин'},
+    {'type': 'invoice', 'number': '11-2', 'name': 'Геннадий Покемонов'},
+    {'type': 'insurance', 'number': '10006', 'name': 'Аристарх Павлов'}
+]
+directories = {
+    '1': ['2207 876234', '11-2'],
+    '2': ['10006'],
+    '3': []
+}
+
+def search_doc_in_docs(number):
+    for i in range(len(documents)):
+        if documents[i]['number']==number:
+            return i
+
+def search_doc_in_direct(number):
+    for i, j in directories.items():
+        if number in j:
+            return i
+
+def command_p():
+    number=input('Введите номер документа:')
+    num_in_doc=search_doc_in_docs(number)
+    if num_in_doc:
+        print(documents[num_in_doc]['name'])
+    else:
+        print('Документ не найден в базе')
+
+def command_s():
+    number = input('Введите номер документа:')
+    num_in_direct=search_doc_in_direct(number)
+    if num_in_direct:
+        print(f'Документ хранится на полке: {num_in_direct}')
+    else:
+        print('Документ не найден в базе')
+
+def command_l():
+    for direct, val in directories.items():
+        for i in val:
+            num_val=search_doc_in_docs(i)
+            print(documents[num_val], direct)
+
+def command_ads():
+    new_di = input('Введите номер полки:')
+    directories[new_di]=[]
+    print(f'Полка добавлена. Текущий перечень полок: {list(directories.keys())}')
+
+while True:
+    print('введите команду')
+    command = input()
+    if command=='p':
+        command_p()
+    if command=='s':
+        command_s()
+    if command=='l':
+        command_l()
+    if command=='ads':
+        command_ads()
